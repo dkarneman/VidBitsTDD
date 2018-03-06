@@ -1,0 +1,91 @@
+Video  
+    #title
+      ✓ is a String
+      ✓ is required
+    #description
+      ✓ is a String
+    #url
+      ✓ is a String
+      ✓ is required
+
+  GET /videos
+    ✓ renders existing Videos (268ms)
+
+  GET /videos/:id
+    ✓ renders the Video (158ms)
+
+  GET /videos/:id/edit
+    ✓ renders a form for the Video (70ms)
+
+  POST /videos/:id/updates
+    ✓ updates the record (42ms)
+    ✓ redirects to the show page
+    when the record is invalid
+      ✓ does not save the record (114ms)
+      ✓ responds with a 400 (90ms)
+      ✓ renders the Edit form (109ms)
+
+  POST /videos
+    ✓ responds with a 302 status code
+    ✓ redirects to the new Video show page
+    ✓ saves a Video document (159ms)
+    when the title is missing
+      ✓ does not save the Video
+      ✓ responds with a 400
+      ✓ renders the video form (38ms)
+      ✓ renders the validation error message (57ms)
+      ✓ preserves the other field values (64ms)
+    when the URL is missing
+      ✓ renders the validation error message (48ms)
+      ✓ preserves the other field values (42ms)
+    POST /videos/:id/deletions
+      ✓ removes the record
+      ✓ redirects to the landing page (102ms)
+
+
+
+      running phantomjs
+Error: timeout of 10000ms exceeded. The execution in the test "User updating video does not creat
+e an additional video" took too long. Try to reduce the run time or increase your timeout for tes
+t specs (http://webdriver.io/guide/testrunner/timeouts.html).
+    at Timeout.<anonymous> (/home/ccuser/node_modules/mocha/lib/runnable.js:226:19)
+    at ontimeout (timers.js:386:14)
+    at tryOnTimeout (timers.js:250:5)
+    at Timer.listOnTimeout (timers.js:214:5)
+
+4) with an existing video renders it in the list:
+timeout of 10000ms exceeded. The execution in the test "with an existing video renders it in the
+list" took too long. Try to reduce the run time or increase your timeout for test specs (http://w
+ebdriver.io/guide/testrunner/timeouts.html).
+running phantomjs
+Error: timeout of 10000ms exceeded. The execution in the test "with an existing video renders it
+in the list" took too long. Try to reduce the run time or increase your timeout for test specs (h
+ttp://webdriver.io/guide/testrunner/timeouts.html).
+    at Timeout.<anonymous> (/home/ccuser/node_modules/mocha/lib/runnable.js:226:19)
+    at ontimeout (timers.js:386:14)
+    at tryOnTimeout (timers.js:250:5)
+    at Timer.listOnTimeout (timers.js:214:5)
+
+5) with an existing video can navigate to a video:
+Cannot read property 'indexOf' of undefined
+running phantomjs
+TypeError: Cannot read property 'indexOf' of undefined
+    at fillFormAndSubmit (/home/ccuser/workspace/tdd-vidbits/test/features/utilities.js:3:13)
+    at Context.it (/home/ccuser/workspace/tdd-vidbits/test/features/user-visiting-landing-page-te
+st.js:33:7)
+
+6) User visiting new videos page can save a video:
+timeout of 10000ms exceeded. The execution in the test "User visiting new videos page can save a
+video" took too long. Try to reduce the run time or increase your timeout for test specs (http://
+webdriver.io/guide/testrunner/timeouts.html).
+running phantomjs
+Error: timeout of 10000ms exceeded. The execution in the test "User visiting new videos page can
+save a video" took too long. Try to reduce the run time or increase your timeout for test specs (
+http://webdriver.io/guide/testrunner/timeouts.html).
+    at Timeout.<anonymous> (/home/ccuser/node_modules/mocha/lib/runnable.js:226:19)
+    at ontimeout (timers.js:386:14)
+    at tryOnTimeout (timers.js:250:5)
+    at Timer.listOnTimeout (timers.js:214:5)
+
+
+npm ERR! Test failed.  See above for more details.
