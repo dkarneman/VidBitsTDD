@@ -4,12 +4,13 @@ const {buildVideoObject} = require('../test-utils');
 describe('User visits the create page', () => {
     describe('posts a new item', () => {
       it('and is rendered', () => {
-        const videoToCreate = buildVideoObject();
-        browser.url('create.html');
-        browser.setValue('#title-input', videoToCreate.title);
-        browser.setValue('#description-input', videoToCreate.description);
+        const vidToCreate = buildVideoObject();
+        browser.url('videos/create');
+        browser.setValue('#title-input', vidToCreate.title);
+        browser.setValue('#description-input', vidToCreate.description);
+        browser.setValue('#url-input', vidToCreate.url);
         browser.click('#submit-button');
-        assert.include(browser.getText('body'), videoToCreate.title);
+        assert.include(browser.getText('body'), vidToCreate.title);
       });
     });
 });

@@ -2,17 +2,29 @@ const {jsdom} = require('jsdom');
 
 const Video = require('../models/video');
 
-// Create and return a sample Item object
+
+// Create a video through the browser
+const userCreatesVideo = (options = {}) => {
+  const vidToCreate = buildVideoObject();
+  browser.url('videos/create');
+  browser.setValue('#title-input', vidToCreate.title);
+  browser.setValue('#description-input', vidToCreate.description);
+  browser.setValue('#url-input', vidToCreate.url);
+  browser.click('#submit-button');
+  return vidToCreate;
+};
+// Create and return a sample Video object
 const buildVideoObject = (options = {}) => {
   const title = options.title || 'Shawshank Redemption';
   const description = options.description || 'Prison Escape Movie';
-  return {title, description};
+  const url = options.url || 'https://www.youtube.com/watch?v=hI51uKAbQDc';
+  return {title, description, url};
 };
 
-// Add a sample Item object to mongodb
+// Add a sample Video object to mongodb
 const seedVideoToDatabase = async (options = {}) => {
-  const item = await Item.create(buildVideoObject(options));
-  return item;
+  const video = await Video.create(buildVideoObject(options));
+  return video;
 };
 
 // extract text from an Element by selector.
@@ -25,18 +37,24 @@ const parseTextFromHTML = (htmlAsString, selector) => {
   }
 };
 
-const findElementByID = (htmlAsString, element, id) => {
-  const field = jsdom(htmlAsString).querySelector(`${element}[id="${id}"]`);
+const findElementByAttribute = (htmlAsString, element, attribute, value) => {
+  const field = jsdom(htmlAsString).querySelector(`${element}[${attribute}="${value}"]`);
   if (field !== null) {
     return field;
   } else {
-    throw new Error(`Form ${element} with ID "${id}" not found in HTML string`);
+    throw new Error(`${element} with ${attribute}="${value}" not found in HTML string`);
   }
 };
 
+const generateRandomUrl = (domain) => {
+  return `http://${domain}/${Math.random()}`;
+};
+
 module.exports = {
+  userCreatesVideo,
   buildVideoObject,
   seedVideoToDatabase,
   parseTextFromHTML,
-  findElementByID
+  findElementByAttribute,
+  generateRandomUrl
 };
