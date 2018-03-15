@@ -13,7 +13,7 @@ describe('User visiting landing page', () => {
         it('to the create page', () => {
           browser.url('/');
           browser.click('a[href="/videos/create"]');
-          assert.include(browser.getText('body'), 'Save a video');
+          assert.include(browser.getText('h2'), 'Create');
         });
     });
 

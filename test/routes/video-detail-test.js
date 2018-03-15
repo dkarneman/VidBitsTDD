@@ -17,7 +17,7 @@ describe("Server path: /videos/:id", () => {
   describe("GET", () => {
     it("renders the video title and description", async () => {
       const video = await seedVideoToDatabase();
-      const response = await request(app).get(`/videos/` + video._id);
+      const response = await request(app).get(`/videos/${video._id}`);
 
       assert.include(
         parseTextFromHTML(response.text, ".video-title"),
@@ -30,7 +30,7 @@ describe("Server path: /videos/:id", () => {
     });
     it("contains an iframe with the URL", async () => {
       const video = await seedVideoToDatabase();
-      const response = await request(app).get(`/videos/` + video._id);
+      const response = await request(app).get(`/videos/${video._id}`);
       const vidElement = findElementByAttribute(response.text,'iframe','src',video.url);
       assert.equal(vidElement.src, video.url);
     })

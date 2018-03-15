@@ -1,6 +1,5 @@
 const Video = require('../../models/video');
 const {assert} = require('chai');
-const {mongoose, databaseUrl, options} = require('../../database');
 const {connectDatabase, disconnectDatabase} = require('../database-utilities');
 
 describe('Model: Video', () => {
@@ -16,7 +15,7 @@ describe('Model: Video', () => {
     it('is required', () => {
       const video = new Video({});
       video.validateSync();
-      assert.equal(video.errors.title.message, 'Path `title` is required.');      
+      assert.equal(video.errors.title.message, 'a `title` is required');      
     });
   });
 
@@ -29,7 +28,7 @@ describe('Model: Video', () => {
     it('is required', () => {
       const video = new Video({});
       video.validateSync();
-      assert.equal(video.errors.description.message, 'Path `description` is required.');      
+      assert.equal(video.errors.description.message, 'a `description` is required');      
     });
   });
 
@@ -42,7 +41,7 @@ describe('Model: Video', () => {
     it('is required', () => {
       const video = new Video({});
       video.validateSync();
-      assert.equal(video.errors.url.message, 'Path `url` is required.');      
+      assert.equal(video.errors.url.message, 'a `url` is required');      
     });
   });
 });

@@ -1,6 +1,5 @@
 const { assert } = require("chai");
 const request = require("supertest");
-const { jsdom } = require("jsdom");
 
 const app = require("../../app");
 const Video = require("../../models/video");
@@ -67,7 +66,20 @@ describe("Server path: /videos/create", () => {
       assert.equal(response.status, 400);
       assert.include(parseTextFromHTML(response.text, "form"), "required");
     });
+    
+    it("will not save a video without a url", async () => {
+      const invalidVideo = {title:'Url-Less', description:'No URL Here'};
+      const response = await request(app)
+        .post("/videos/create")
+        .type("form")
+        .send(invalidVideo);
 
+      const allVids = await Video.find({});
+      assert.equal(allVids.length, 0);
+      assert.equal(response.status, 400);
+      assert.include(parseTextFromHTML(response.text, "form"), "required");
+    });
+    
     it("remembers the description and url when title fails validation", async () => {
       const invalidVideo = {description:'No Title Here',url:'http://www.google.com'};
       const response = await request(app)

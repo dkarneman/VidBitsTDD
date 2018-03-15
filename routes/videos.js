@@ -13,14 +13,13 @@ router.get('/videos/create', (req, res, next) => {
 
 router.post('/videos/create', async (req, res, next) => {
   const {title, description, url} = req.body;
-  const newVideo = new Video({title, description, url});
-  newVideo.validateSync();
-  if (newVideo.errors) {
-    res.status(400).render('videos/create', {newVideo: newVideo});
+  const video = new Video({title, description, url});
+  video.validateSync();
+  if (video.errors) {
+    res.status(400).render('videos/create', {video});
   } else {
-    await newVideo.save();
-    res.redirect(`/videos/${newVideo._id}`);
-    // res.redirect('/');
+    await video.save();
+    res.redirect(`/videos/${video._id}`);
   }
 
 });
@@ -30,29 +29,29 @@ router.get('/videos/:videoId', async (req, res, next) => {
   res.render('videos/show', {video});
 });
 
-// router.post('/videos/:videoId/delete', async (req, res, next) => {
-//   const video = await Video.findById(req.params.videoId);
-//   await video.remove()
-//   res.redirect('/');
-// });
+router.get('/videos/:videoId/edit', async (req, res, next) => {
+  const video = await Video.findById(req.params.videoId);
+  res.render('videos/edit',{video});
+});
 
-// router.get('/videos/:videoId/update', async (req, res, next) => {
-//   const video = await Video.findById(req.params.videoId);
-//   res.render('update',{video: video});
-// });
+router.post('/videos/:videoId/updates', async (req, res, next) => {
+  const thisVideo = await Video.findById(req.params.videoId);
+  await Video.update({_id: req.params.videoId}, //id to update
+      req.body, //new values
+      {runValidators: true}, //options
+      function(err){ //callback
+        if (err) {
+          return res.status(400).render(`videos/edit`, {errors: err.errors, video: thisVideo});
+        } else {
+          return res.redirect(`/videos/${req.params.videoId}`)
+        }
+  });
+});
 
-// router.post('/videos/:videoId/update', async (req, res, next) => {
-//   const thisItem = await Video.findById(req.params.videoId);
-//   await Video.update({_id: req.params.videoId}, //id to update
-//       req.body, //new values
-//       {runValidators: true}, //options
-//       function(err){ //callback
-//         if (err) {
-//           return res.status(400).render(`update`, {errors: err.errors, video: thisItem});
-//         } else {
-//           return res.redirect(`/videos/${req.params.videoId}`)
-//         }
-//   });
-// });
+router.post('/videos/:videoId/deletions', async (req, res, next) => {
+  const video = await Video.findById(req.params.videoId);
+  await video.remove()
+  res.redirect('/');
+});
 
 module.exports = router;
